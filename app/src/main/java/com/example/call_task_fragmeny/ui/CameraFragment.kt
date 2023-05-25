@@ -82,6 +82,12 @@ class CameraFragment : Fragment(), View.OnClickListener, PortMessageReceiver.Bro
                 else -> {}
             }
             currentLine?.Reset()
+
+            val fragment = LoginFragment()
+            val fragmentManager = activity?.supportFragmentManager
+            val trans = fragmentManager?.beginTransaction()
+            trans?.replace(R.id.container, fragment)
+            trans?.commit()
         }
 
         imgSwitchCamera!!.setOnClickListener(this)
