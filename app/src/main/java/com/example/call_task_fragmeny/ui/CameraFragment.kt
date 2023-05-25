@@ -7,7 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.call_task_fragmeny.CallManager
 import com.example.call_task_fragmeny.MainActivity
@@ -15,6 +17,7 @@ import com.example.call_task_fragmeny.MyApplication
 import com.example.call_task_fragmeny.PortMessageReceiver
 import com.example.call_task_fragmeny.PortSipService
 import com.example.call_task_fragmeny.R
+import com.example.call_task_fragmeny.Ring
 import com.example.call_task_fragmeny.Session
 import com.portsip.PortSIPVideoRenderer
 import com.portsip.PortSipErrorcode
@@ -56,8 +59,30 @@ class CameraFragment : Fragment(), View.OnClickListener, PortMessageReceiver.Bro
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val portSipSdk: PortSipSdk? = application!!.mEngine
+        val currentLine = CallManager.Instance()!!.getCurrentSession()
+
         imgSwitchCamera = view.findViewById(R.id.ibcamera) as ImageButton
         imgScaleType = view.findViewById(R.id.ibscale) as ImageButton
+
+        val hangUp = view.findViewById<Button>(R.id.hangUpBtnCam)
+        hangUp.setOnClickListener {
+            getActivity()?.let { it1 -> Ring.getInstance(it1)?.stop()}
+            when (currentLine?.state) {
+                Session.CALL_STATE_FLAG.INCOMING -> {
+                    portSipSdk?.rejectCall(currentLine.sessionID, 486)
+                    Toast.makeText(activity, "Rejected Call", Toast.LENGTH_SHORT).show()
+                }
+
+                Session.CALL_STATE_FLAG.CONNECTED, Session.CALL_STATE_FLAG.TRYING -> {
+                    portSipSdk?.hangUp(currentLine.sessionID)
+                    Toast.makeText(activity, "Hang Up", Toast.LENGTH_SHORT).show()
+                }
+
+                else -> {}
+            }
+            currentLine?.Reset()
+        }
 
         imgSwitchCamera!!.setOnClickListener(this)
         imgScaleType!!.setOnClickListener(this)
