@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+
+    <LinearLayout
+        android:id="@+id/llRemoteView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.portsip.PortSIPVideoRenderer
+            android:id="@+id/remote_video_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/ibscale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/aspect" />
+
+            <ImageButton
+                android:id="@+id/ibcamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/camera" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llLocalView"
+            android:layout_width="72dp"
+            android:layout_height="88dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center">
+
+            <com.portsip.PortSIPVideoRenderer
+                android:id="@+id/local_video_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <com.portsip.PortSIPVideoRenderer
+            android:id="@+id/share_video_view"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/llLocalView"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="2dp"
+            android:layout_weight="1" />
+    </RelativeLayout>
+</FrameLayout>
